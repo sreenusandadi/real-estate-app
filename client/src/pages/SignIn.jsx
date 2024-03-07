@@ -6,6 +6,7 @@ import {
   signInStart,
   signInSuccess,
 } from "../redux/user/userSlice";
+import OAth from "../components/OAth";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -25,7 +26,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signInStart);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -67,6 +68,7 @@ export default function SignIn() {
         <button className="p-3 rounded-lg bg-slate-700 text-white uppercase hover:opacity-95 disabled:opacity-80">
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <OAth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account</p>
