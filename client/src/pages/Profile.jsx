@@ -9,6 +9,8 @@ import {
 import { app } from "../firbase";
 import {
   UpdateUserFailure,
+  deleteUserFailure,
+  deleteUserSuccess,
   signInStart,
   updateUserSuccess,
 } from "../redux/user/userSlice";
@@ -19,6 +21,7 @@ export default function Profile() {
   const [fileUploadProgress, setFileUploadProgress] = useState(0);
   const [fielUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
+  const [userUpdate, setUserUpadte] = useState(false);
   const imgRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -70,11 +73,32 @@ export default function Profile() {
 
       if (data.success == false) {
         dispatch(UpdateUserFailure(data));
+        setUserUpadte(false);
         return;
       }
       dispatch(updateUserSuccess(data));
+      setUserUpadte(true);
     } catch (error) {
       dispatch(UpdateUserFailure(error));
+      setUserUpadte(false);
+    }
+  };
+
+  const handledelete = async () => {
+    try {
+      dispatch(signInStart());
+      const result = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await result.json();
+      console.log(data);
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess());
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
     }
   };
   return (
@@ -136,14 +160,16 @@ export default function Profile() {
         </button>
       </form>
       <div className="text-red-500 flex justify-between mt-2 cursor-pointer">
-        <span>Delete account</span>
+        <span onClick={handledelete}>Delete account</span>
         <span>Sign out</span>
       </div>
       <p>
         {error ? (
           <span className="text-red-500">{error}</span>
-        ) : (
+        ) : userUpdate ? (
           <span className="text-green-500">User Updated Successfully!</span>
+        ) : (
+          ""
         )}
       </p>
     </div>
