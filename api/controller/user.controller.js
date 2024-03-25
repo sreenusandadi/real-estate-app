@@ -1,6 +1,7 @@
 import handleError from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
+import Listing from "../models/listin.model.js";
 
 export const user = (req, res) => {
   res.json({
@@ -49,5 +50,18 @@ export const deleteUser = async (req, res, next) => {
       .json("User deleted successfully!");
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserListings = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const listings = await Listing.find({ userRef: req.params.id });
+      res.status(200).json(listings);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    next(handleError(401, "You don not have any listing!"));
   }
 };
