@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getDownloadURL,
   getStorage,
@@ -7,9 +7,9 @@ import {
 } from "firebase/storage";
 import { app } from "../firbase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function CreateListing() {
+export default function UpdateListing() {
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,6 +33,17 @@ export default function CreateListing() {
     userRef: "",
     address: "",
   });
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchListing = async () => {
+      const res = await fetch(`/api/listing/${params.listingId}`);
+      const data = await res.json();
+      setFormData(data);
+    };
+    fetchListing();
+  }, [params.listingId]);
+
   const handleImageUpload = () => {
     if (files.length > 0 && files.length < 7) {
       setUploading(true);
@@ -128,7 +139,7 @@ export default function CreateListing() {
       return setError("Discount Price should not be more then regular price");
     try {
       setLoading(true);
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +155,7 @@ export default function CreateListing() {
         }
       }
       setLoading(false);
-      navigate("/profile");
+      navigate(`/view-listing/${params.listingId}`);
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -164,7 +175,7 @@ export default function CreateListing() {
   return (
     <main className="max-w-4xl p-4 mx-auto">
       <h1 className="text-3xl font-semibold text-center my-4">
-        Create Listing
+        Update Listing
       </h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-6">
@@ -220,7 +231,7 @@ export default function CreateListing() {
                 type="checkbox"
                 id="furnished"
                 className="w-5"
-                value={formData.furnished}
+                checked={formData.furnished}
                 onChange={handleChange}
               />
               <label htmlFor="furnished">Furnished</label>
@@ -230,7 +241,7 @@ export default function CreateListing() {
                 type="checkbox"
                 id="parking"
                 className="w-5"
-                value={formData.parking}
+                checked={formData.parking}
                 onChange={handleChange}
               />
               <label htmlFor="parking">Parking spot</label>
@@ -240,7 +251,7 @@ export default function CreateListing() {
                 type="checkbox"
                 id="offer"
                 className="w-5"
-                value={formData.offer}
+                checked={formData.offer}
                 onChange={handleChange}
               />
               <label htmlFor="offer">Offer</label>
@@ -327,7 +338,6 @@ export default function CreateListing() {
           </p>
           <div className="flex justify-between gap-3">
             <input
-              required
               className="border p-3 rounded border-gray-300 flex-1"
               type="file"
               id="images"
@@ -369,7 +379,7 @@ export default function CreateListing() {
             disabled={uploading || loading}
             className="p-3 rounded-lg bg-green-500 text-white uppercase disabled:opacity-80"
           >
-            Create Listing
+            Update Listing
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </div>

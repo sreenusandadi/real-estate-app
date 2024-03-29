@@ -16,7 +16,7 @@ import {
   signoutUserFailure,
   updateUserSuccess,
 } from "../redux/user/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -25,9 +25,12 @@ export default function Profile() {
   const [fielUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [userUpdate, setUserUpadte] = useState(false);
+  const [listingError, setListingError] = useState("");
+  const [listings, setListings] = useState([]);
   const imgRef = useRef(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (file) handleFileUpload(file);
@@ -116,6 +119,46 @@ export default function Profile() {
       dispatch(signoutUserFailure(error));
     }
   };
+
+  const handleShowListing = async () => {
+    try {
+      const results = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await results.json();
+      if (data.success === false) {
+        setListingError(data.error);
+      }
+      setListings(data);
+    } catch (error) {
+      setListingError(error.message);
+    }
+  };
+
+  const handleDeleteListing = async (listingId) => {
+    try {
+      const result = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await result.json();
+      if (data.success == false) {
+        setListingError(data.error);
+        return;
+      }
+      setListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      setListingError(error.message);
+    }
+  };
+
+  const hadleUpdate = (id) => {
+    navigate(`/update-listing/${id}`);
+  };
+
+  const moveToListing = (id) => {
+    navigate(`/view-listing/${id}`);
+  };
+
   return (
     <div className="max-w-lg mx-auto p-3">
       <h1 className="font-semibold text-center my-4 text-3xl">Profile</h1>
@@ -193,6 +236,56 @@ export default function Profile() {
           ""
         )}
       </p>
+      <div className="text-center">
+        <button
+          className="text-green-700 my-4"
+          type="button"
+          onClick={handleShowListing}
+        >
+          Show Listings
+        </button>
+        {listingError && <p className="text-red-500">{listingError}</p>}
+        {listings.length > 0 && (
+          <div>
+            <h1 className="text-2xl font-semibold my-4">Your Listings</h1>
+            {listings.map((listing) => {
+              return (
+                <div
+                  key={listing._id}
+                  className="flex gap-4 border-2 rounded-lg my-4 p-4 items-center"
+                >
+                  <img
+                    src={listing.imageUrls[0]}
+                    alt="Listing Images"
+                    className="w-16 object-contain"
+                  />
+                  <h2
+                    className="me-auto text-lg font-semibold hover:underline"
+                    onClick={() => moveToListing(listing._id)}
+                  >
+                    {listing.name}
+                  </h2>
+                  <div className="flex flex-col gap-2">
+                    <button
+                      className="text-red-700"
+                      type="button"
+                      onClick={() => handleDeleteListing(listing._id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="text-green-700"
+                      onClick={() => hadleUpdate(listing._id)}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

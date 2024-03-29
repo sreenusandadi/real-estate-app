@@ -65,3 +65,13 @@ export const getUserListings = async (req, res, next) => {
     next(handleError(401, "You don not have any listing!"));
   }
 };
+
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { password, ...rest } = user._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
