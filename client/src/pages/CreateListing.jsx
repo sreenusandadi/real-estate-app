@@ -70,11 +70,7 @@ export default function CreateListing() {
 
       uploadTask.on(
         "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(Math.round(progress));
-        },
+        () => {},
         (error) => {
           setUploadError(error.message);
           reject(error);

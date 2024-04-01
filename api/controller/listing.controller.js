@@ -2,7 +2,6 @@ import Listing from "../models/listin.model.js";
 import handleError from "../utils/error.js";
 
 export const createListing = async (req, res, next) => {
-  console.log();
   try {
     const listing = await Listing.create(req.body);
     res.status(201).json(listing);
@@ -13,7 +12,6 @@ export const createListing = async (req, res, next) => {
 
 export const deleteListing = async (req, res, next) => {
   const listing = await Listing.findById(req.params.id);
-  console.log(listing);
   if (!listing) {
     next(handleError(404, "Listing not found!"));
   }

@@ -9,5 +9,5 @@ body {
 .view-listing-img {
   background-repeat: no-repeat !important;
   background-size: cover !important;
-  background-position: center;
+  background-position: center !important;
 }

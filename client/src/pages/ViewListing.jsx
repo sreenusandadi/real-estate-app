@@ -93,8 +93,9 @@ export default function ViewListing() {
                   Contact landlord
                 </button>
               ) : (
-                <Contact listing={listing} />
+                ""
               )}
+              {contact && <Contact listing={listing} />}
             </div>
           </div>
         </div>

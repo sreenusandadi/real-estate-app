@@ -97,7 +97,6 @@ export default function Profile() {
         method: "DELETE",
       });
       const data = await result.json();
-      console.log(data);
       if (data.success === false) {
         dispatch(deleteUserFailure(data));
         return;

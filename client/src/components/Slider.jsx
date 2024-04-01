@@ -9,7 +9,7 @@ export default function Slider({ listing }) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      handleIndex("increment");
+      // handleIndex("increment");
     }, 3000);
 
     return () => {
@@ -35,12 +35,12 @@ export default function Slider({ listing }) {
   };
   return (
     <div
-      className="max-h-[300px] sm:max-h-[500px] view-listing-img"
+      className="max-h-[300px] sm:max-h-[400px] view-listing-img"
       style={{
         background: `url(${listing.imageUrls[imgIndex]})`,
       }}
     >
-      <div className="flex items-center justify-between h-[300px] sm:h-[500px]">
+      <div className="flex items-center justify-between h-[300px] sm:h-[400px]">
         <button
           onClick={() => handleIndex("decrement")}
           className="ps-3 text-6xl text-gray-400 hover:text-black"

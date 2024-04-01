@@ -12,6 +12,7 @@ export default function Home() {
     const fetchOfferListings = async () => {
       const urlParams = new URLSearchParams(location.search);
       urlParams.set("offer", true);
+      urlParams.set("limit", 4);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
@@ -21,11 +22,11 @@ export default function Home() {
     };
     fetchOfferListings();
   }, []);
-  console.log(saleListings);
 
   const fetchRentListings = async (serachWith) => {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("type", serachWith);
+    urlParams.set("limit", 4);
     const searchQuery = urlParams.toString();
     const res = await fetch(`/api/listing/get?${searchQuery}`);
     const data = await res.json();
