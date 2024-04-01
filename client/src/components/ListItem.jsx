@@ -16,7 +16,7 @@ export default function ListItem({ listItem }) {
         {listItem.name}
       </div>
       <p className="flex items-center gap-2">
-        <FaLocationDot className="text-green-700" />{" "}
+        <FaLocationDot className="text-green-700" />
         <span className="truncate">{listItem.address}</span>
       </p>
       <div className="line-clamp-2">
@@ -24,8 +24,8 @@ export default function ListItem({ listItem }) {
         {listItem.description}
       </div>
       <p>
-        ${listItem.regularPrice}
-        <span> / {listItem.type === "rent" && "month"}</span>
+        ${listItem.regularPrice.toLocaleString("en-US")}
+        <span>{listItem.type === "rent" && " / month"}</span>
       </p>
       <p className="text-green-700">
         <span>{listItem.bedRooms} Beds </span>

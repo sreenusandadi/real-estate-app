@@ -34,8 +34,11 @@ export default function ViewListing() {
           <Slider listing={listing} />
           <div className="max-w-4xl mx-auto p-4">
             <p className="text-4xl font-semibold my-4">
-              {listing.name} - $ {listing.regularPrice - listing.offerPrice} /
-              month
+              {listing.name} - $
+              {(listing.regularPrice - listing.offerPrice).toLocaleString(
+                "en-US"
+              )}
+              {listing.type === "rent" && " / month"}
             </p>
             <div className="flex flex-col gap-4">
               <p className="flex items-center gap-2">
