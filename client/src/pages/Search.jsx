@@ -5,6 +5,7 @@ import ListItem from "../components/ListItem";
 export default function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
+  const [showMore, setShowMore] = useState(false);
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
     type: "all",
@@ -52,6 +53,7 @@ export default function Search() {
         const searchQuery = urlParams.toString();
         const res = await fetch(`/api/listing/get?${searchQuery}`);
         const data = await res.json();
+        if (data.length > 8) setShowMore(true);
         setListings(data);
         setLoading(false);
       } catch (error) {
@@ -74,6 +76,16 @@ export default function Search() {
     urlParams.set("order", sidebarData.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+
+  const loadMore = async () => {
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", listings.length);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 8) setShowMore(false);
+    setListings([...listings, ...data]);
   };
 
   const handleChange = (e) => {
@@ -211,6 +223,14 @@ export default function Search() {
               return <ListItem key={listing._id} listItem={listing} />;
             })}
           </div>
+        )}
+        {showMore && (
+          <p
+            className="text-green-700 pt-5 hover:underline text-center"
+            onClick={loadMore}
+          >
+            Show more...
+          </p>
         )}
       </div>
     </div>

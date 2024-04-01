@@ -33,7 +33,7 @@ export default function Home() {
   };
   return (
     <div>
-      <div className="max-w-7xl mx-auto p-6 flex flex-col gap-5">
+      <div className="max-w-5xl mx-auto p-6 flex flex-col gap-5">
         <p className="text-6xl font-semibold text-slate-700">
           Find your next <span className="text-slate-500">perfect</span> <br />
           place with ease
@@ -42,14 +42,17 @@ export default function Home() {
           Sreenu Estate will help you find your home fast, easy and comfortable.
           <br /> Our expert support are always available.
         </p>
-        <Link className="text-blue-700 font-semibold hover:underline">
+        <Link
+          to="/search"
+          className="text-blue-700 font-semibold hover:underline"
+        >
           Let&apos;s start now...
         </Link>
       </div>
       {offerListings.length > 0 && <Slider listing={offerListings[0]} />}
       {offerListings.length > 0 && (
         <div
-          className={`max-w-7xl mx-auto ${
+          className={`max-w-5xl mx-auto ${
             rentListings.length > 0 ? "pt-10" : "py-10"
           }`}
         >
@@ -70,7 +73,7 @@ export default function Home() {
       )}
       {rentListings.length > 0 && (
         <div
-          className={`max-w-7xl mx-auto ${
+          className={`max-w-5xl mx-auto ${
             saleListings.length > 0 ? "pt-10" : "py-10"
           }`}
         >
@@ -90,7 +93,7 @@ export default function Home() {
         </div>
       )}
       {saleListings.length > 0 && (
-        <div className="max-w-7xl mx-auto py-10">
+        <div className="max-w-5xl mx-auto py-10">
           <p className="font-semibold text-xl">Recent places for sale</p>
           <Link
             to="/search?type=sale"

@@ -124,6 +124,8 @@ export default function CreateListing() {
     e.preventDefault();
     setError("");
     setUploadError("");
+    if (formData.imageUrls.length === 0)
+      return setError("Please upload atleast one image to proceed!");
     if (formData.regularPrice < formData.discountPrice)
       return setError("Discount Price should not be more then regular price");
     try {
@@ -327,7 +329,6 @@ export default function CreateListing() {
           </p>
           <div className="flex justify-between gap-3">
             <input
-              required
               className="border p-3 rounded border-gray-300 flex-1"
               type="file"
               id="images"
@@ -336,7 +337,7 @@ export default function CreateListing() {
               onChange={(e) => setFiles(e.target.files)}
             />
             <button
-              className="text-green-500 border-green-500 rounded-lg border p-3"
+              className="text-green-700 border-green-700 rounded-lg border p-3"
               type="button"
               onClick={handleImageUpload}
             >
@@ -367,7 +368,7 @@ export default function CreateListing() {
           {uploadError && <p className="text-red-500">{uploadError}</p>}
           <button
             disabled={uploading || loading}
-            className="p-3 rounded-lg bg-green-500 text-white uppercase disabled:opacity-80"
+            className="p-3 rounded-lg bg-green-700 text-white uppercase disabled:opacity-80"
           >
             Create Listing
           </button>
