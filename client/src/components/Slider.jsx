@@ -9,7 +9,7 @@ export default function Slider({ listing }) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      // handleIndex("increment");
+      handleIndex("increment");
     }, 3000);
 
     return () => {
