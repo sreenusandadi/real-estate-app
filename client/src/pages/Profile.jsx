@@ -125,6 +125,10 @@ export default function Profile() {
       const data = await results.json();
       if (data.success === false) {
         setListingError(data.error);
+        return;
+      }
+      if (data.length == 0) {
+        setListingError("No listings available!");
       }
       setListings(data);
     } catch (error) {

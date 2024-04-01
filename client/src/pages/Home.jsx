@@ -40,7 +40,8 @@ export default function Home() {
           place with ease
         </p>
         <p className="text-gray-500">
-          Sreenu Estate will help you find your home fast, easy and comfortable.
+          Sandadi Estate will help you find your home fast, easy and
+          comfortable.
           <br /> Our expert support are always available.
         </p>
         <Link
