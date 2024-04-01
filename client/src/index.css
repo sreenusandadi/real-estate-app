@@ -5,3 +5,8 @@
 body {
   background: rgb(244, 260, 245);
 }
+
+.view-listing-img {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}

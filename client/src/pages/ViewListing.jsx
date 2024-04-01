@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import Contact from "./Contact";
+import Slider from "../components/Slider";
 
 export default function ViewListing() {
   const [listing, setListing] = useState(null);
@@ -30,12 +31,7 @@ export default function ViewListing() {
     <div>
       {listing && (
         <div>
-          <div>
-            <img
-              className="max-h-[300px] w-[100%]"
-              src={listing.imageUrls[1]}
-            />
-          </div>
+          <Slider listing={listing} />
           <div className="max-w-4xl mx-auto p-4">
             <p className="text-4xl font-semibold my-4">
               {listing.name} - $ {listing.regularPrice - listing.offerPrice} /

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListItem from "../components/ListItem";
 
 export default function Search() {
   const [loading, setLoading] = useState(false);
@@ -51,7 +52,6 @@ export default function Search() {
         const searchQuery = urlParams.toString();
         const res = await fetch(`/api/listing/get?${searchQuery}`);
         const data = await res.json();
-        console.log(data);
         setListings(data);
         setLoading(false);
       } catch (error) {
@@ -106,7 +106,7 @@ export default function Search() {
   };
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
+      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen min-w-[350px]">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex gap-2 items-center">
             <label className="font-semibold text-nowrap">Search Term:</label>
@@ -201,7 +201,17 @@ export default function Search() {
         </form>
       </div>
       <div className="p-7">
-        <p className="text-3xl font-semibold">Listing Results</p>
+        {loading && <div className="font-semibold">Loading...</div>}
+        {!loading && listings.length === 0 && (
+          <div className="text-4xl font-semibold">No Listings Found</div>
+        )}
+        {!loading && listings.length > 0 && (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {listings.map((listing) => {
+              return <ListItem key={listing._id} listItem={listing} />;
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

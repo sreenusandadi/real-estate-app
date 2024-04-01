@@ -260,7 +260,8 @@ export default function Profile() {
                     className="w-16 object-contain"
                   />
                   <h2
-                    className="me-auto text-lg font-semibold hover:underline"
+                    className="me-auto text-lg font-semibold truncate hover:underline"
+                    title={listing.name}
                     onClick={() => moveToListing(listing._id)}
                   >
                     {listing.name}

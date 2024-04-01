@@ -112,7 +112,7 @@ export default function CreateListing() {
         [e.target.id]: e.target.checked,
       });
     }
-    if (e.target.id === "rent" || e.target.id === "sell") {
+    if (e.target.id === "rent" || e.target.id === "sale") {
       setFormData({
         ...formData,
         type: e.target.id,
@@ -198,12 +198,12 @@ export default function CreateListing() {
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                id="sell"
+                id="sale"
                 className="w-5"
-                checked={formData.type === "sell"}
+                checked={formData.type === "sale"}
                 onChange={handleChange}
               />
-              <label htmlFor="sell">Sell</label>
+              <label htmlFor="sale">Sale</label>
             </div>
             <div className="flex gap-2">
               <input
